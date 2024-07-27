@@ -4,18 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import CartModal from "./CartModal";
 
 const NavIcons = () => {
   const router = useRouter();
-  const [isProfileOpen, setisProfileOpen] = useState<Boolean>(false);
-  const [isCartOpen, setisCartOpen] = useState<Boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<Boolean>(false);
+  const [isCartOpen, setIsCartOpen] = useState<Boolean>(false);
   const isLoggedIn = false;
+  const counter = 0;
 
   const handleProfile = () => {
     if (!isLoggedIn) {
       router.push("/login");
     }
-    setisProfileOpen((prev) => !prev);
+    setIsProfileOpen((prev) => !prev);
   };
 
   return (
@@ -41,13 +43,16 @@ const NavIcons = () => {
         height={22}
         className="cursor-pointer"
       />
-      <Image
-        src="/cart.png"
-        alt="cart"
-        width={22}
-        height={22}
-        className="cursor-pointer"
-      />
+      <div
+        className="relative cursor-pointer"
+        onClick={() => setIsCartOpen((prev) => !prev)}
+      >
+        <Image src="/cart.png" alt="" width={22} height={22} />
+        <div className="absolute -top-4 -right-4 w-6 h-6 bg-pink rounded-full text-white text-sm flex items-center justify-center">
+          {counter}
+        </div>
+      </div>
+      {isCartOpen && <CartModal />}
     </div>
   );
 };
